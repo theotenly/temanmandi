@@ -2513,9 +2513,17 @@
   #tm-product-detail{grid-template-columns:1fr !important;gap:20px !important}
   #tm-header nav{display:none}
   #tm-header{padding:12px 16px !important}
+  .tm-bundle-grid{grid-template-columns:1fr !important}
+  .tm-reviews-grid{grid-template-columns:1fr !important}
 }
 @media(max-width:480px){
   #tm-cat-grid{grid-template-columns:repeat(2,1fr) !important}
+}
+
+/* Bundle deals responsive */
+@media(max-width:768px){
+  [data-bundle-grid]{grid-template-columns:1fr !important}
+  [data-reviews-grid]{grid-template-columns:1fr !important}
 }
 </style>
 </helmet>
@@ -2523,7 +2531,12 @@
 <div style="{{ rootStyle }}">
 
   <!-- PROMO BAR -->
-  <div style="background:var(--primary-dark,#9E5638);color:#fff;text-align:center;font-size:13px;letter-spacing:.2px;padding:8px 16px;font-weight:500">{{ promoText }}</div>
+  <div style="background:var(--primary-dark,#9E5638);color:#fff;text-align:center;font-size:13px;letter-spacing:.2px;padding:8px 16px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+    <span>{{ promoText }}</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.5px">
+      ⏰ Penawaran berakhir: <span style="font-variant-numeric:tabular-nums">{{ countdown }}</span>
+    </span>
+  </div>
 
   <!-- HEADER -->
   <header style="position:sticky;top:0;z-index:40;background:var(--cream,#F6F0E7);border-bottom:1px solid var(--line,#E7DDCF)">
@@ -2532,11 +2545,13 @@
         <img src="data:image/webp;base64,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" alt="Teman Mandi" style="width:40px;height:40px;object-fit:contain;mix-blend-mode:multiply">
         <span style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:var(--ink,#3B2F28);letter-spacing:-.3px">teman mandi</span>
       </button>
+      <span style="display:inline-flex;align-items:center;gap:5px;background:var(--soft,#EDE3D4);border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:600;color:var(--primary-dark,#9E5638);white-space:nowrap">✓ BPOM &amp; Halal</span>
       <nav style="display:flex;gap:4px;margin-left:auto">
         <button onclick="{{ goHome }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Beranda</button>
         <button onclick="{{ goCatalog }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Katalog</button>
         <button onclick="{{ goTesti }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Testimoni</button>
         <button onclick="{{ goKontak }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Kontak</button>
+        <button onclick="{{ openAbout }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Tentang</button>
       </nav>
       <button onclick="{{ openCart }}" style="position:relative;display:flex;align-items:center;gap:8px;background:var(--primary,#BC6C49);border:none;cursor:pointer;color:#fff;padding:9px 16px 9px 14px;border-radius:999px;font-weight:600;font-size:14px">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
@@ -2545,6 +2560,37 @@
       </button>
     </div>
   </header>
+
+  <!-- ABOUT MODAL -->
+  <sc-if value="{{ aboutOpen }}">
+    <div onclick="{{ closeAbout }}" style="position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onclick="{{ closeAbout }}" style="background:var(--card,#FFFDF9);border-radius:24px;max-width:560px;width:100%;padding:36px;position:relative;max-height:80vh;overflow-y:auto">
+        <button onclick="{{ closeAbout }}" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;font-size:22px;color:var(--muted,#8C7B6A)">×</button>
+        <h2 style="font-family:'Newsreader',serif;font-size:32px;font-weight:500;color:var(--ink,#3B2F28);margin:0 0 8px">Tentang Teman Mandi</h2>
+        <p style="font-size:15px;line-height:1.7;color:var(--muted,#8C7B6A);margin:0 0 20px">Teman Mandi lahir dari keyakinan bahwa momen mandi bukan sekadar rutinitas — tapi me-time yang layak dinikmati sepenuhnya.</p>
+        <p style="font-size:15px;line-height:1.7;color:var(--muted,#8C7B6A);margin:0 0 20px">Kami adalah brand lokal Indonesia yang menghadirkan produk perawatan tubuh premium dengan bahan-bahan pilihan, aroma yang memanjakan indra, dan packaging yang membuatmu tersenyum setiap hari.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 24px">
+          <div style="background:var(--soft,#EDE3D4);border-radius:16px;padding:16px 18px">
+            <div style="font-size:24px;font-weight:700;color:var(--primary,#BC6C49)">8.000+</div>
+            <div style="font-size:13px;color:var(--muted,#8C7B6A);margin-top:2px">Pelanggan puas</div>
+          </div>
+          <div style="background:var(--soft,#EDE3D4);border-radius:16px;padding:16px 18px">
+            <div style="font-size:24px;font-weight:700;color:var(--primary,#BC6C49)">24+</div>
+            <div style="font-size:13px;color:var(--muted,#8C7B6A);margin-top:2px">Varian produk</div>
+          </div>
+          <div style="background:var(--soft,#EDE3D4);border-radius:16px;padding:16px 18px">
+            <div style="font-size:22px;font-weight:700;color:var(--primary,#BC6C49)">✓ BPOM</div>
+            <div style="font-size:13px;color:var(--muted,#8C7B6A);margin-top:2px">Terdaftar resmi</div>
+          </div>
+          <div style="background:var(--soft,#EDE3D4);border-radius:16px;padding:16px 18px">
+            <div style="font-size:22px;font-weight:700;color:var(--primary,#BC6C49)">✓ Halal</div>
+            <div style="font-size:13px;color:var(--muted,#8C7B6A);margin-top:2px">Bersertifikat halal</div>
+          </div>
+        </div>
+        <a href="https://wa.me/628111507037?text=Halo+Teman+Mandi!" style="display:block;text-align:center;background:var(--primary,#BC6C49);color:#fff;text-decoration:none;padding:14px;border-radius:999px;font-weight:600;font-size:15px">Hubungi Kami via WhatsApp</a>
+      </div>
+    </div>
+  </sc-if>
 
   <!-- ============ HOME ============ -->
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
@@ -2614,6 +2660,30 @@
       </div>
     </section>
 
+    <!-- BUNDLE DEALS -->
+    <section style="max-width:1180px;margin:0 auto;padding:0 22px 50px">
+      <h2 style="font-family:'Newsreader',serif;font-size:34px;font-weight:500;color:var(--ink,#3B2F28);margin:0 0 6px;letter-spacing:-.5px">Paket Hemat Spesial</h2>
+      <p style="font-size:15px;color:var(--muted,#8C7B6A);margin:0 0 28px">Lebih hemat, lebih lengkap. Pilihan terbaik buat kamu yang mau coba semua!</p>
+      <div data-bundle-grid="" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <sc-for list="{{ bundles }}" as="bun">
+          <div style="background:var(--card,#FFFDF9);border-radius:20px;border:1.5px solid var(--line,#E7DDCF);padding:24px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="position:absolute;top:0;left:0;right:0;height:4px;background:{{ bun.tint }}"></div>
+            <div>
+              <span style="display:inline-block;background:var(--soft,#EDE3D4);color:var(--primary-dark,#9E5638);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;margin-bottom:10px">BUNDLING HEMAT</span>
+              <h3 style="font-family:'Newsreader',serif;font-size:22px;font-weight:500;color:var(--ink,#3B2F28);margin:0 0 6px">{{ bun.name }}</h3>
+              <p style="font-size:13.5px;color:var(--muted,#8C7B6A);margin:0">{{ bun.desc }}</p>
+            </div>
+            <p style="font-size:13px;color:var(--muted,#8C7B6A);margin:0;border-top:1px solid var(--line,#E7DDCF);padding-top:12px">{{ bun.items }}</p>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <span style="font-size:22px;font-weight:700;color:var(--primary,#BC6C49)">{{ bun.priceLabel }}</span>
+              <span style="font-size:12px;color:var(--primary-dark,#9E5638);background:var(--soft,#EDE3D4);padding:3px 8px;border-radius:999px;font-weight:600">{{ bun.savingsLabel }}</span>
+            </div>
+            <button onclick="{{ goCatalog }}" style="background:var(--primary,#BC6C49);color:#fff;border:none;cursor:pointer;padding:12px;border-radius:999px;font-weight:600;font-size:14px;width:100%">Pesan Paket Ini →</button>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
     <!-- CATEGORIES -->
     <section style="max-width:1180px;margin:64px auto 0;padding:0 22px">
       <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:34px;color:var(--ink,#3B2F28);letter-spacing:-.5px;margin-bottom:22px">Belanja per kategori</h2>
@@ -2651,7 +2721,26 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="tm-kontak" style="max-width:1180px;margin:72px auto 0;padding:0 22px">
+    <!-- FAQ -->
+  <section style="max-width:1180px;margin:0 auto;padding:0 22px 60px">
+    <h2 style="font-family:'Newsreader',serif;font-size:34px;font-weight:500;color:var(--ink,#3B2F28);margin:0 0 6px;letter-spacing:-.5px">Pertanyaan Umum</h2>
+    <p style="font-size:15px;color:var(--muted,#8C7B6A);margin:0 0 28px">Belum yakin? Baca dulu jawaban dari kami.</p>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <sc-for list="{{ faq }}" as="f">
+        <div style="border-bottom:1px solid var(--line,#E7DDCF)">
+          <button onclick="{{ f.toggle }}" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:20px 0;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <span style="font-size:16px;font-weight:600;color:var(--ink,#3B2F28);line-height:1.4">{{ f.q }}</span>
+            <span style="font-size:22px;color:var(--primary,#BC6C49);flex-shrink:0;{{ f.iconStyle }}">+</span>
+          </button>
+          <sc-if value="{{ f.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 0 20px;font-size:15px;line-height:1.7;color:var(--muted,#8C7B6A)">{{ f.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="tm-kontak" style="max-width:1180px;margin:72px auto 0;padding:0 22px">
       <div style="background:var(--ink,#3B2F28);border-radius:28px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
         <div>
           <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:34px;color:#fff;letter-spacing:-.5px">Ngobrol yuk!</h2>
@@ -2705,6 +2794,7 @@
         <div style="background:var(--card,#FFFDF9);border:1px solid var(--line,#E7DDCF);border-radius:18px;overflow:hidden;display:flex;flex-direction:column">
           <div onclick="{{ p.open }}" style="position:relative;aspect-ratio:1/1;cursor:pointer;overflow:hidden;background:{{ p.tint }}">
             <sc-if value="{{ p.badge }}" hint-placeholder-val=""><span style="position:absolute;top:12px;left:12px;z-index:2;background:var(--ink,#3B2F28);color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px">{{ p.badge }}</span></sc-if>
+            <sc-if value="{{ p.hasStock }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:10px;left:10px;z-index:2;background:#E74C3C;color:#fff;border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700">{{ p.stockLabel }}</span></sc-if>
             <img src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block">
           </div>
           <div style="padding:14px 15px 15px;display:flex;flex-direction:column;gap:5px;flex:1">
@@ -2731,7 +2821,8 @@
     <div id="tm-product-detail" style="display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:start">
       <div style="position:relative;aspect-ratio:1/1;border-radius:24px;background:{{ detail.tint }};display:flex;align-items:center;justify-content:center;border:1px solid var(--line,#E7DDCF)">
         <sc-if value="{{ detail.badge }}" hint-placeholder-val=""><span style="position:absolute;top:18px;left:18px;background:var(--ink,#3B2F28);color:#fff;font-size:12px;font-weight:600;padding:6px 13px;border-radius:999px">{{ detail.badge }}</span></sc-if>
-        <img src="{{ detail.img }}" alt="{{ detail.name }}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:block">
+        <img onclick="{{ detail.openZoom }}" src="{{ detail.img }}" alt="{{ detail.name }}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;display:block;cursor:zoom-in">
+        <span style="position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.85);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--ink,#3B2F28);pointer-events:none">🔍 Tap untuk zoom</span>
       </div>
       <div>
         <span style="font-size:13px;color:var(--primary,#BC6C49);font-weight:600;letter-spacing:.3px;text-transform:uppercase">{{ detail.catLabel }}</span>
@@ -2757,6 +2848,10 @@
           </div>
           <button onclick="{{ detail.add }}" style="flex:1;background:var(--primary,#BC6C49);color:#fff;border:none;cursor:pointer;padding:15px;border-radius:999px;font-weight:600;font-size:15.5px">Tambah ke keranjang</button>
         </div>
+        <a href="{{ detail.waShare }}" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:999px;border:1.5px solid #25D366;color:#25D366;text-decoration:none;font-weight:600;font-size:14.5px;margin-bottom:4px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Tanya via WhatsApp
+        </a>
         <div style="border-top:1px solid var(--line,#E7DDCF);padding-top:20px;display:flex;flex-direction:column;gap:11px">
           <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink,#3B2F28)"><span style="color:var(--primary,#BC6C49)">✓</span> Aroma terapi tahan lama</div>
           <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink,#3B2F28)"><span style="color:var(--primary,#BC6C49)">✓</span> Lembut &amp; ramah di kulit</div>
@@ -2764,7 +2859,36 @@
         </div>
       </div>
     </div>
+
+    <!-- ULASAN PEMBELI -->
+    <div style="margin-top:48px;padding-top:40px;border-top:1px solid var(--line,#E7DDCF)">
+      <h3 style="font-family:'Newsreader',serif;font-size:28px;font-weight:500;color:var(--ink,#3B2F28);margin:0 0 24px">Ulasan Pembeli ⭐</h3>
+      <div data-reviews-grid="" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <sc-for list="{{ detail.reviews }}" as="rv">
+          <div style="background:var(--card,#FFFDF9);border:1px solid var(--line,#E7DDCF);border-radius:18px;padding:20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+              <div style="width:42px;height:42px;border-radius:50%;background:var(--soft,#EDE3D4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--primary-dark,#9E5638);flex-shrink:0">{{ rv.initial }}</div>
+              <div>
+                <div style="font-weight:600;font-size:14px;color:var(--ink,#3B2F28)">{{ rv.name }}</div>
+                <div style="font-size:12px;color:var(--muted,#8C7B6A)">{{ rv.city }}</div>
+              </div>
+              <span style="margin-left:auto;color:#F39C12;font-size:13px">{{ rv.stars }}</span>
+            </div>
+            <p style="font-size:14px;line-height:1.6;color:var(--muted,#8C7B6A);margin:0">"{{ rv.text }}"</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
   </main>
+  </sc-if>
+
+  <!-- ZOOM MODAL -->
+  <sc-if value="{{ detail.zoomOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ detail.closeZoom }}" style="position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;cursor:zoom-out;animation:tmfade .2s ease">
+      <img src="{{ detail.img }}" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:16px">
+      <button onclick="{{ detail.closeZoom }}" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer">×</button>
+    </div>
   </sc-if>
 
   <!-- ============ CART / CHECKOUT DRAWER ============ -->
@@ -2867,6 +2991,11 @@
   </div>
   </sc-if>
 
+  <!-- WA FLOAT -->
+  <a href="https://wa.me/628111507037?text=Halo+Teman+Mandi%21+Saya+mau+tanya+tentang+produk." style="position:fixed;bottom:24px;right:24px;z-index:50;background:#25D366;color:#fff;width:58px;height:58px;border-radius:999px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.22);text-decoration:none;animation:tmrise .6s ease both">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
   <!-- TOAST -->
   <sc-if value="{{ toast }}" hint-placeholder-val="">
     <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:80;background:var(--ink,#3B2F28);color:#fff;padding:13px 22px;border-radius:999px;font-size:14px;font-weight:500;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);animation:tmrise .3s ease">{{ toast }}</div>
@@ -2874,10 +3003,11 @@
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;terracotta&quot;,&quot;sage&quot;,&quot;mocha&quot;],&quot;default&quot;:&quot;terracotta&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;waNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;6281234567890&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;promoText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gratis ongkir min. belanja Rp 150.000 • Pesan sekarang, kirim hari ini ✦&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;terracotta&quot;,&quot;sage&quot;,&quot;mocha&quot;],&quot;default&quot;:&quot;terracotta&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;waNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;628111507037&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;promoText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gratis ongkir min. belanja Rp 150.000 • Pesan sekarang, kirim hari ini ✦&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   state = {
     view: 'home', activeId: null, filter: 'all', search: '',
+    sort: 'default', aboutOpen: false, faqActive: -1, countdown: '', zoomOpen: false,
     cartOpen: false, cart: [], step: 'cart',
     dVariant: 0, dQty: 1,
     form: { nama:'', hp:'', alamat:'', kirim:'reguler', catatan:'' },
@@ -2886,7 +3016,15 @@ class Component extends DCLogic {
 
   componentDidMount() {
     try { const s = localStorage.getItem('tm_cart'); if (s) this.setState({ cart: JSON.parse(s) }); } catch (e) {}
+    const tick = () => {
+      const now = new Date(); const midnight = new Date(now); midnight.setHours(24,0,0,0);
+      const diff = Math.max(0, midnight - now);
+      const hh = Math.floor(diff/3600000); const mn = Math.floor((diff%3600000)/60000); const ss = Math.floor((diff%60000)/1000);
+      this.setState({ countdown: String(hh).padStart(2,'0')+':'+String(mn).padStart(2,'0')+':'+String(ss).padStart(2,'0') });
+    };
+    tick(); this._ct = setInterval(tick, 1000);
   }
+  componentWillUnmount() { clearInterval(this._ct); }
   persist(cart) { try { localStorage.setItem('tm_cart', JSON.stringify(cart)); } catch (e) {} }
   rupiah(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
 
@@ -2911,30 +3049,30 @@ class Component extends DCLogic {
 
   products() {
     return [
-      { id:1, cat:'bubble', name:'Bubble Bath Original', price:45000, variants:['Original'], badge:'Best Seller', sold:'8.000+ terbeli', desc:'Busa lembut melimpah yang bikin acara mandimu serasa di spa. Sedikit aja, langsung jadi lautan busa.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:2, cat:'bubble', name:'Bubble Bath Aroma Segar', price:45000, variants:['Eucalyptus','Sea Breeze'], badge:'', sold:'', desc:'Wangi segar yang nyegerin badan setelah hari yang panjang.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:3, cat:'bubble', name:'Bubble Bath Aroma Manis', price:45000, variants:['Vanilla','Strawberry'], badge:'', sold:'', desc:'Aroma manis yang hangat dan bikin nagih buat mandi lama-lama.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:4, cat:'bubble', name:'Bubble Bath Baby & Kids', price:48000, variants:['Soft Cotton'], badge:'', sold:'800+ terbeli', desc:'Formula super lembut dan tear-free, aman banget buat si kecil.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:5, cat:'bubble', name:'Refill Bubble Bath 1 Liter', price:120000, variants:['Original'], badge:'Hemat', sold:'', desc:'Ukuran jumbo buat kamu yang nggak mau kehabisan busa. Lebih hemat!', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:6, cat:'bubble', name:'Travel Size Bubble Bath', price:25000, variants:['Original','Sea Breeze'], badge:'', sold:'', desc:'Mungil, gampang dibawa, tetap mewah di mana aja.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:7, cat:'bubble', name:'Paket All Star Bubble Bath', price:150000, variants:[], badge:'Paket', sold:'1.000+ terbeli', desc:'Koleksi aroma terlaris dalam satu paket spesial. Cobain semuanya!', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp' },
-      { id:8, cat:'spa', name:'Bath Salt', price:38000, variants:['Lavender','Rose','Green Tea'], badge:'', sold:'1.000+ terbeli', desc:'Garam mandi yang melemaskan otot dan menenangkan pikiran.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/2/0fc4ddd8-f9d8-4ccf-91a4-f47b6305d75a.png' },
-      { id:9, cat:'spa', name:'Bath Salt Sachet', price:8000, variants:['Lavender','Rose'], badge:'', sold:'', desc:'Sekali pakai, pas buat nyobain atau dibawa traveling.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/2/0fc4ddd8-f9d8-4ccf-91a4-f47b6305d75a.png' },
-      { id:10, cat:'spa', name:'Bath Bomb', price:30000, variants:['Citrus','Floral'], badge:'', sold:'', desc:'Cemplungin ke air, lihat warnanya meledak, nikmati aromanya.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/11/25/b64b10ce-a5f2-4ba7-9b9a-0026a0e3de6c.png.webp' },
-      { id:11, cat:'spa', name:'Paket Spa di Rumah', price:135000, variants:[], badge:'Paket', sold:'', desc:'Bubble bath + bath salt + body wash buat me-time maksimal.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png' },
-      { id:12, cat:'body', name:'Body Wash Jasmine Green Tea', price:52000, variants:['Jasmine Green Tea'], badge:'', sold:'900+ terbeli', desc:'Sabun cair lembut dengan wangi melati dan teh hijau yang menenangkan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp' },
-      { id:13, cat:'body', name:'Body Wash Wood Sage & Sea Salt', price:52000, variants:['Wood Sage & Sea Salt'], badge:'', sold:'', desc:'Aroma earthy yang elegan dan bikin rileks seharian.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp' },
-      { id:14, cat:'body', name:'Body Lotion', price:55000, variants:['Shea Butter','Almond'], badge:'', sold:'', desc:'Melembapkan seharian tanpa rasa lengket di kulit.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp' },
-      { id:15, cat:'body', name:'Hand Cream', price:35000, variants:['Shea','Rose'], badge:'', sold:'', desc:'Tangan lembut dan wangi ke mana pun kamu pergi.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png' },
-      { id:16, cat:'body', name:'Coffee Body Scrub', price:48000, variants:['Original Coffee'], badge:'', sold:'', desc:'Eksfoliasi alami dari kopi, kulit jadi halus dan cerah.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp' },
-      { id:17, cat:'hand', name:'Scented Hand Wash', price:42000, variants:['Lemongrass','Lavender'], badge:'', sold:'900+ terbeli', desc:'Cuci tangan jadi momen wangi yang menyenangkan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png' },
-      { id:18, cat:'hand', name:'Chocolate Velvet Hand Wash', price:45000, variants:['Chocolate Velvet'], badge:'', sold:'', desc:'Wangi cokelat hangat yang bikin betah cuci tangan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png' },
-      { id:19, cat:'hair', name:'2-in-1 Hair Mist & Disinfectant Spray', price:58000, variants:['Fresh Cotton','Floral'], badge:'Best Seller', sold:'2.000+ terbeli', desc:'Wangi rambut sekaligus bunuh kuman. Praktis banget dibawa ke mana-mana.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png' },
-      { id:20, cat:'hair', name:'Multipurpose Disinfectant Spray', price:45000, variants:['Fresh'], badge:'', sold:'', desc:'Semprot ke mana aja, kuman minggat, ruangan jadi wangi.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png' },
-      { id:21, cat:'gift', name:'Butterfly Dome Gift Set', price:185000, variants:[], badge:'Hampers', sold:'', desc:'Set hadiah cantik dalam dome kupu-kupu. Tinggal kasih ke orang tersayang.', img:'https://images.tokopedia.net/img/cache/700/3a6a00f86cda45a39c4169d0f98e47c4.jpg' },
-      { id:22, cat:'gift', name:'Maison Gift Set', price:220000, variants:[], badge:'Hampers', sold:'', desc:'Koleksi mewah lengkap untuk momen spesial.', img:'https://images.tokopedia.net/img/cache/700/982bbb7e34934dee83a068415cb6983f.jpg' },
-      { id:23, cat:'gift', name:'Enchante Gift Set', price:250000, variants:[], badge:'Hampers', sold:'', desc:'Paket premium komplit buat hadiah yang berkesan.', img:'https://images.tokopedia.net/img/cache/700/3a6a00f86cda45a39c4169d0f98e47c4.jpg' },
-      { id:24, cat:'gift', name:'White Dune Collection', price:230000, variants:[], badge:'Hampers', sold:'', desc:'Nuansa netral elegan, cocok jadi kado apa aja.', img:'https://images.tokopedia.net/img/cache/700/982bbb7e34934dee83a068415cb6983f.jpg' }
+      { id:1, cat:'bubble', name:'Bubble Bath Original', price:45000, variants:['Original'], badge:'Best Seller', sold:'8.000+ terbeli', desc:'Busa lembut melimpah yang bikin acara mandimu serasa di spa. Sedikit aja, langsung jadi lautan busa.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:12 },
+      { id:2, cat:'bubble', name:'Bubble Bath Aroma Segar', price:45000, variants:['Eucalyptus','Sea Breeze'], badge:'', sold:'', desc:'Wangi segar yang nyegerin badan setelah hari yang panjang.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:20 },
+      { id:3, cat:'bubble', name:'Bubble Bath Aroma Manis', price:45000, variants:['Vanilla','Strawberry'], badge:'', sold:'', desc:'Aroma manis yang hangat dan bikin nagih buat mandi lama-lama.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:18 },
+      { id:4, cat:'bubble', name:'Bubble Bath Baby & Kids', price:48000, variants:['Soft Cotton'], badge:'', sold:'800+ terbeli', desc:'Formula super lembut dan tear-free, aman banget buat si kecil.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:8 },
+      { id:5, cat:'bubble', name:'Refill Bubble Bath 1 Liter', price:120000, variants:['Original'], badge:'Hemat', sold:'', desc:'Ukuran jumbo buat kamu yang nggak mau kehabisan busa. Lebih hemat!', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:3 },
+      { id:6, cat:'bubble', name:'Travel Size Bubble Bath', price:25000, variants:['Original','Sea Breeze'], badge:'', sold:'', desc:'Mungil, gampang dibawa, tetap mewah di mana aja.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:25 },
+      { id:7, cat:'bubble', name:'Paket All Star Bubble Bath', price:150000, variants:[], badge:'Paket', sold:'1.000+ terbeli', desc:'Koleksi aroma terlaris dalam satu paket spesial. Cobain semuanya!', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/2/7/c71d9989-7a11-45d2-8daf-bc45bfca2538.png.webp', stock:5 },
+      { id:8, cat:'spa', name:'Bath Salt', price:38000, variants:['Lavender','Rose','Green Tea'], badge:'', sold:'1.000+ terbeli', desc:'Garam mandi yang melemaskan otot dan menenangkan pikiran.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/2/0fc4ddd8-f9d8-4ccf-91a4-f47b6305d75a.png', stock:15 },
+      { id:9, cat:'spa', name:'Bath Salt Sachet', price:8000, variants:['Lavender','Rose'], badge:'', sold:'', desc:'Sekali pakai, pas buat nyobain atau dibawa traveling.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/2/0fc4ddd8-f9d8-4ccf-91a4-f47b6305d75a.png', stock:30 },
+      { id:10, cat:'spa', name:'Bath Bomb', price:30000, variants:['Citrus','Floral'], badge:'', sold:'', desc:'Cemplungin ke air, lihat warnanya meledak, nikmati aromanya.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/11/25/b64b10ce-a5f2-4ba7-9b9a-0026a0e3de6c.png.webp', stock:9 },
+      { id:11, cat:'spa', name:'Paket Spa di Rumah', price:135000, variants:[], badge:'Paket', sold:'', desc:'Bubble bath + bath salt + body wash buat me-time maksimal.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png', stock:4 },
+      { id:12, cat:'body', name:'Body Wash Jasmine Green Tea', price:52000, variants:['Jasmine Green Tea'], badge:'', sold:'900+ terbeli', desc:'Sabun cair lembut dengan wangi melati dan teh hijau yang menenangkan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp', stock:14 },
+      { id:13, cat:'body', name:'Body Wash Wood Sage & Sea Salt', price:52000, variants:['Wood Sage & Sea Salt'], badge:'', sold:'', desc:'Aroma earthy yang elegan dan bikin rileks seharian.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp', stock:17 },
+      { id:14, cat:'body', name:'Body Lotion', price:55000, variants:['Shea Butter','Almond'], badge:'', sold:'', desc:'Melembapkan seharian tanpa rasa lengket di kulit.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp', stock:11 },
+      { id:15, cat:'body', name:'Hand Cream', price:35000, variants:['Shea','Rose'], badge:'', sold:'', desc:'Tangan lembut dan wangi ke mana pun kamu pergi.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png', stock:22 },
+      { id:16, cat:'body', name:'Coffee Body Scrub', price:48000, variants:['Original Coffee'], badge:'', sold:'', desc:'Eksfoliasi alami dari kopi, kulit jadi halus dan cerah.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/17/e0781cf5-2e2f-43e3-8a0b-70e76cb2a325.png.webp', stock:6 },
+      { id:17, cat:'hand', name:'Scented Hand Wash', price:42000, variants:['Lemongrass','Lavender'], badge:'', sold:'900+ terbeli', desc:'Cuci tangan jadi momen wangi yang menyenangkan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png', stock:19 },
+      { id:18, cat:'hand', name:'Chocolate Velvet Hand Wash', price:45000, variants:['Chocolate Velvet'], badge:'', sold:'', desc:'Wangi cokelat hangat yang bikin betah cuci tangan.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/29/9b3c7617-ddc7-4014-852c-118012bf9209.png', stock:13 },
+      { id:19, cat:'hair', name:'2-in-1 Hair Mist & Disinfectant Spray', price:58000, variants:['Fresh Cotton','Floral'], badge:'Best Seller', sold:'2.000+ terbeli', desc:'Wangi rambut sekaligus bunuh kuman. Praktis banget dibawa ke mana-mana.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png', stock:7 },
+      { id:20, cat:'hair', name:'Multipurpose Disinfectant Spray', price:45000, variants:['Fresh'], badge:'', sold:'', desc:'Semprot ke mana aja, kuman minggat, ruangan jadi wangi.', img:'https://images.tokopedia.net/img/cache/700/VqbcmM/2024/6/17/f3aaec3f-06ad-4e01-9486-0c80d1962dcb.png', stock:16 },
+      { id:21, cat:'gift', name:'Butterfly Dome Gift Set', price:185000, variants:[], badge:'Hampers', sold:'', desc:'Set hadiah cantik dalam dome kupu-kupu. Tinggal kasih ke orang tersayang.', img:'https://images.tokopedia.net/img/cache/700/3a6a00f86cda45a39c4169d0f98e47c4.jpg', stock:3 },
+      { id:22, cat:'gift', name:'Maison Gift Set', price:220000, variants:[], badge:'Hampers', sold:'', desc:'Koleksi mewah lengkap untuk momen spesial.', img:'https://images.tokopedia.net/img/cache/700/982bbb7e34934dee83a068415cb6983f.jpg', stock:5 },
+      { id:23, cat:'gift', name:'Enchante Gift Set', price:250000, variants:[], badge:'Hampers', sold:'', desc:'Paket premium komplit buat hadiah yang berkesan.', img:'https://images.tokopedia.net/img/cache/700/3a6a00f86cda45a39c4169d0f98e47c4.jpg', stock:4 },
+      { id:24, cat:'gift', name:'White Dune Collection', price:230000, variants:[], badge:'Hampers', sold:'', desc:'Nuansa netral elegan, cocok jadi kado apa aja.', img:'https://images.tokopedia.net/img/cache/700/982bbb7e34934dee83a068415cb6983f.jpg', stock:6 }
     ];
   }
 
@@ -2977,11 +3115,32 @@ class Component extends DCLogic {
   }
   openProduct(id){ this.setState({ view:'product', activeId:id, dVariant:0, dQty:1 }); window.scrollTo(0,0); }
 
+  faqItems() {
+    return [
+      { q:'Apakah produk Teman Mandi sudah bersertifikat BPOM dan halal?', a:'Ya! Seluruh produk Teman Mandi telah terdaftar resmi di BPOM dan bersertifikat halal. Aman digunakan setiap hari oleh seluruh keluarga.' },
+      { q:'Berapa lama waktu pengiriman?', a:'Jabodetabek 1-2 hari kerja, Pulau Jawa 2-3 hari kerja, luar Jawa 3-7 hari kerja. Pengiriman dilakukan setiap hari termasuk Sabtu.' },
+      { q:'Bagaimana cara melakukan pemesanan?', a:'Pilih produk, tambahkan ke keranjang, isi data pengiriman, lalu konfirmasi pesanan via WhatsApp. Praktis banget!' },
+      { q:'Berapa minimum belanja untuk gratis ongkir?', a:'Gratis ongkir untuk pembelian minimum Rp 150.000. Berlaku untuk seluruh wilayah Indonesia dengan pengiriman reguler.' },
+      { q:'Bisa pesan custom hampers atau corporate gift?', a:'Tentu bisa! Hubungi kami via WhatsApp untuk custom hampers ulang tahun, pernikahan, atau corporate gift dengan minimum order menyesuaikan.' }
+    ];
+  }
+
+  bundles() {
+    return [
+      { id:'b1', name:'Starter Kit Mandi Mewah', desc:'Cocok buat pertama coba Teman Mandi', items:'Bubble Bath + Bath Salt + Body Wash', priceLabel:this.rupiah(115000), savingsLabel:'Hemat '+this.rupiah(20000), tint:'#DCE6DD' },
+      { id:'b2', name:'Paket Spa di Rumah', desc:'Me-time sempurna tiap weekend', items:'Bath Bomb + Bath Salt + Body Lotion + Hand Cream', priceLabel:this.rupiah(130000), savingsLabel:'Hemat '+this.rupiah(28000), tint:'#E9E0CF' },
+      { id:'b3', name:'Paket Kado Siap Kasih', desc:'Cantik, wangi, tinggal kasih', items:'Gift Set + Bath Salt Sachet x2 + Hand Cream', priceLabel:this.rupiah(169000), savingsLabel:'Hemat '+this.rupiah(32000), tint:'#EAD9D1' }
+    ];
+  }
+
   enrich(p){
     const cm = this.catMeta()[p.cat];
+    const stk = p.stock||99;
+    const stockLabel = stk<=5 ? 'Sisa '+stk+' lagi!' : '';
     return {
       id:p.id, name:p.name, catLabel:cm.label, tint:cm.tint, badge:p.badge,
       priceLabel:this.rupiah(p.price), sold:p.sold, img:p.img||'',
+      stockLabel, hasStock: stk<=5,
       open:()=>this.openProduct(p.id),
       add:()=>this.addToCart(p.id, p.variants[0]||'', 1)
     };
@@ -3010,9 +3169,13 @@ class Component extends DCLogic {
         open:()=>{ this.setState({ view:'catalog', filter:k, search:'' }); window.scrollTo(0,0); } };
     });
 
-    // catalog filter
+    // catalog filter + sort
     const q = S.search.trim().toLowerCase();
     let cat = all.filter(p=> (S.filter==='all'||p.cat===S.filter) && (!q || p.name.toLowerCase().includes(q)) );
+    if (S.sort==='price_asc') cat = [...cat].sort((a,b)=>a.price-b.price);
+    else if (S.sort==='price_desc') cat = [...cat].sort((a,b)=>b.price-a.price);
+    else if (S.sort==='terlaris') cat = [...cat].sort((a,b)=>(b.sold?1:0)-(a.sold?1:0));
+    else if (S.sort==='termurah') cat = [...cat].sort((a,b)=>a.price-b.price);
     const catalogProducts = cat.map(p=>this.enrich(p));
 
     const chipBase = 'white-space:nowrap;border:1px solid var(--line,#E7DDCF);cursor:pointer;padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:500;';
@@ -3041,7 +3204,16 @@ class Component extends DCLogic {
         })),
         inc:()=>this.setState(s=>({ dQty:s.dQty+1 })),
         dec:()=>this.setState(s=>({ dQty:Math.max(1,s.dQty-1) })),
-        add:()=>this.addToCart(p.id, p.variants[S.dVariant]||'', S.dQty)
+        add:()=>this.addToCart(p.id, p.variants[S.dVariant]||'', S.dQty),
+        waShare:'https://wa.me/628111507037?text='+encodeURIComponent('Halo Teman Mandi! Saya tertarik dengan produk '+p.name+'. Bisa info lebih lanjut?'),
+        openZoom:()=>this.setState({zoomOpen:true}),
+        closeZoom:()=>this.setState({zoomOpen:false}),
+        zoomOpen:S.zoomOpen,
+        reviews:[
+          { initial:'A', name:'Anggi R.', city:'Jakarta', stars:'★★★★★', text:'Produk bagus banget, busanya melimpah dan wanginya tahan lama. Mandi jadi me-time favorit!' },
+          { initial:'B', name:'Budi W.', city:'Bandung', stars:'★★★★★', text:'Kualitas premium, harga terjangkau. Udah repeat order 3x dan nggak kecewa.' },
+          { initial:'C', name:'Clara M.', city:'Surabaya', stars:'★★★★☆', text:'Packaging rapi dan aman. Produk sesuai deskripsi, cocok buat kado juga.' }
+        ]
       };
     }
 
@@ -3065,7 +3237,7 @@ class Component extends DCLogic {
     const regulerStyle = S.form.kirim==='reguler' ? shipBase+'background:var(--soft,#EDE3D4);border-color:var(--primary,#BC6C49);color:var(--ink,#3B2F28);' : shipBase+'background:var(--card,#FFFDF9);color:var(--ink,#3B2F28);';
     const expressStyle = S.form.kirim==='express' ? shipBase+'background:var(--soft,#EDE3D4);border-color:var(--primary,#BC6C49);color:var(--ink,#3B2F28);' : shipBase+'background:var(--card,#FFFDF9);color:var(--ink,#3B2F28);';
 
-    const waNum = this.props.waNumber || '6281234567890';
+    const waNum = this.props.waNumber || '628111507037';
     // wa order message
     let waOrder = '#';
     if (S.step==='done'){
@@ -3082,6 +3254,7 @@ class Component extends DCLogic {
     return {
       rootStyle,
       promoText: this.props.promoText || 'Gratis ongkir min. belanja Rp 150.000 • Pesan sekarang, kirim hari ini ✦',
+      countdown: S.countdown,
       // nav
       goHome:()=>{ this.setState({view:'home'}); window.scrollTo(0,0); },
       goCatalog:()=>{ this.setState({view:'catalog', filter:'all', search:''}); window.scrollTo(0,0); },
@@ -3089,14 +3262,19 @@ class Component extends DCLogic {
       goTesti:()=>this.scrollTo('tm-testi'),
       goKontak:()=>this.scrollTo('tm-kontak'),
       goBackCatalog:()=>{ this.setState({view:'catalog'}); window.scrollTo(0,0); },
+      // about
+      aboutOpen:S.aboutOpen, openAbout:()=>this.setState({aboutOpen:true}), closeAbout:()=>this.setState({aboutOpen:false}),
       // views
       isHome:S.view==='home', isCatalog:S.view==='catalog', isProduct:S.view==='product',
       featured, categories, testimonials:this.testimonials(),
       // catalog
       catalogProducts, filterChips,
+      sort:S.sort, setSort:(e)=>this.setState({sort:e.target.value}),
+      bundles:this.bundles(),
       chipAllStyle: S.filter==='all' ? chipOn : chipOff,
       filterAll:()=>this.setState({filter:'all'}),
       onSearch:(e)=>this.setState({search:e.target.value}),
+      faq:this.faqItems().map((item,i)=>({ q:item.q, a:item.a, isOpen:S.faqActive===i, iconStyle:S.faqActive===i?'transform:rotate(45deg);transition:transform .2s':'transition:transform .2s', toggle:()=>this.setState({faqActive:S.faqActive===i?-1:i}) })),
       search:S.search,
       catalogCountLabel: catalogProducts.length+' produk siap dikirim',
       catalogEmpty: catalogProducts.length===0,
