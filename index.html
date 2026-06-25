@@ -2490,6 +2490,7 @@
 </style>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
+  html,body{overflow-x:hidden;width:100%}
   body{background:#F6F0E7;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   ::selection{background:#BC6C49;color:#fff}
   input,textarea,button{font-family:inherit}
@@ -2503,27 +2504,53 @@
 <style>
 /* ===== MOBILE RESPONSIVE ===== */
 @media(max-width:768px){
+  /* Hero */
   #tm-hero{grid-template-columns:1fr !important;padding:28px 18px 20px !important;gap:20px !important}
   #tm-hero-img{display:none !important}
+  /* Value props */
   #tm-vp-grid{grid-template-columns:1fr !important;gap:10px !important}
+  /* Featured */
   #tm-feat-grid{grid-template-columns:repeat(2,1fr) !important;gap:12px !important}
+  /* Categories */
   #tm-cat-grid{grid-template-columns:repeat(3,1fr) !important;gap:8px !important}
+  /* Testimonials */
   #tm-testi-grid{grid-template-columns:1fr !important}
+  /* Catalog grid */
   #tm-catalog-grid{grid-template-columns:repeat(2,1fr) !important;gap:12px !important}
+  /* Product detail */
   #tm-product-detail{grid-template-columns:1fr !important;gap:20px !important}
-  #tm-header nav{display:none}
-  #tm-header{padding:12px 16px !important}
-  .tm-bundle-grid{grid-template-columns:1fr !important}
-  .tm-reviews-grid{grid-template-columns:1fr !important}
+  /* Bundle & reviews */
+  [data-bundle-grid]{grid-template-columns:1fr !important}
+  [data-reviews-grid]{grid-template-columns:1fr !important}
+  /* Header: hide nav, hide BPOM badge, compress */
+  #tm-header nav{display:none !important}
+  #tm-header{padding:10px 14px !important}
+  #tm-bpom-badge{display:none !important}
+  /* Sections: ensure full width with safe padding */
+  main section,main>div{padding-left:14px !important;padding-right:14px !important}
+  /* Promo bar: stack */
+  #tm-promo-bar{flex-direction:column !important;gap:6px !important;padding:10px 14px !important}
+  /* Cart drawer full width */
+  aside{width:100% !important;max-width:100% !important}
+  /* Hero text */
+  #tm-hero h1{font-size:36px !important;line-height:1.1 !important}
+  /* Product detail heading */
+  #tm-product-detail h1{font-size:28px !important}
 }
 @media(max-width:480px){
   #tm-cat-grid{grid-template-columns:repeat(2,1fr) !important}
+  #tm-feat-grid{grid-template-columns:repeat(2,1fr) !important;gap:8px !important}
+  #tm-catalog-grid{grid-template-columns:repeat(2,1fr) !important;gap:8px !important}
+  /* Filter chips: allow horizontal scroll instead of wrapping */
+  #tm-filter-bar{flex-wrap:nowrap !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;padding-bottom:6px !important}
+  #tm-filter-bar>*{flex-shrink:0 !important}
 }
-
-/* Bundle deals responsive */
+/* Show bottom nav on mobile, add padding so content isn't hidden behind it */
 @media(max-width:768px){
-  [data-bundle-grid]{grid-template-columns:1fr !important}
-  [data-reviews-grid]{grid-template-columns:1fr !important}
+  #tm-mobile-nav{display:flex !important}
+  body{padding-bottom:70px}
+  /* Move WA float above bottom nav */
+  #tm-wa-float{bottom:82px !important}
 }
 </style>
 </helmet>
@@ -2531,7 +2558,7 @@
 <div style="{{ rootStyle }}">
 
   <!-- PROMO BAR -->
-  <div style="background:var(--primary-dark,#9E5638);color:#fff;text-align:center;font-size:13px;letter-spacing:.2px;padding:8px 16px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+  <div id="tm-promo-bar" style="background:var(--primary-dark,#9E5638);color:#fff;text-align:center;font-size:13px;letter-spacing:.2px;padding:8px 16px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
     <span>{{ promoText }}</span>
     <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.5px">
       ⏰ Penawaran berakhir: <span style="font-variant-numeric:tabular-nums">{{ countdown }}</span>
@@ -2540,12 +2567,12 @@
 
   <!-- HEADER -->
   <header style="position:sticky;top:0;z-index:40;background:var(--cream,#F6F0E7);border-bottom:1px solid var(--line,#E7DDCF)">
-    <div style="max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px">
+    <div id="tm-header" style="max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:18px">
       <button onclick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:0">
         <img src="data:image/webp;base64,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" alt="Teman Mandi" style="width:40px;height:40px;object-fit:contain;mix-blend-mode:multiply">
         <span style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:var(--ink,#3B2F28);letter-spacing:-.3px">teman mandi</span>
       </button>
-      <span style="display:inline-flex;align-items:center;gap:5px;background:var(--soft,#EDE3D4);border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:600;color:var(--primary-dark,#9E5638);white-space:nowrap">✓ BPOM &amp; Halal</span>
+      <span id="tm-bpom-badge" style="display:inline-flex;align-items:center;gap:5px;background:var(--soft,#EDE3D4);border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:600;color:var(--primary-dark,#9E5638);white-space:nowrap">✓ BPOM &amp; Halal</span>
       <nav style="display:flex;gap:4px;margin-left:auto">
         <button onclick="{{ goHome }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Beranda</button>
         <button onclick="{{ goCatalog }}" style="background:none;border:none;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink,#3B2F28);padding:8px 12px;border-radius:8px">Katalog</button>
@@ -2560,6 +2587,27 @@
       </button>
     </div>
   </header>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav id="tm-mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:45;background:var(--cream,#F6F0E7);border-top:1px solid var(--line,#E7DDCF);padding:8px 4px env(safe-area-inset-bottom,0);flex-direction:row">
+    <button onclick="{{ goHome }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:10px;color:var(--muted,#8C7B6A)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Beranda
+    </button>
+    <button onclick="{{ goCatalog }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:10px;color:var(--muted,#8C7B6A)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/></svg>
+      Katalog
+    </button>
+    <button onclick="{{ openCart }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:10px;color:var(--primary,#BC6C49);position:relative">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:0;right:20%;background:var(--primary,#BC6C49);color:#fff;border-radius:999px;min-width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700">{{ cartCount }}</span></sc-if>
+      Keranjang
+    </button>
+    <button onclick="{{ openAbout }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:10px;color:var(--muted,#8C7B6A)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      Tentang
+    </button>
+  </nav>
 
   <!-- ABOUT MODAL -->
   <sc-if value="{{ aboutOpen }}">
@@ -2587,7 +2635,7 @@
             <div style="font-size:13px;color:var(--muted,#8C7B6A);margin-top:2px">Bersertifikat halal</div>
           </div>
         </div>
-        <a href="https://wa.me/628111507037?text=Halo+Teman+Mandi!" style="display:block;text-align:center;background:var(--primary,#BC6C49);color:#fff;text-decoration:none;padding:14px;border-radius:999px;font-weight:600;font-size:15px">Hubungi Kami via WhatsApp</a>
+        <a id="tm-wa-float" href="https://wa.me/628111507037?text=Halo+Teman+Mandi!" style="display:block;text-align:center;background:var(--primary,#BC6C49);color:#fff;text-decoration:none;padding:14px;border-radius:999px;font-weight:600;font-size:15px">Hubungi Kami via WhatsApp</a>
       </div>
     </div>
   </sc-if>
@@ -2783,7 +2831,7 @@
         <input value="{{ search }}" oninput="{{ onSearch }}" placeholder="Cari produk..." style="width:100%;border:1px solid var(--line,#E7DDCF);background:var(--card,#FFFDF9);border-radius:999px;padding:12px 18px 12px 40px;font-size:14.5px;color:var(--ink,#3B2F28);outline:none">
       </div>
     </div>
-    <div class="tmscroll" style="display:flex;gap:9px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px">
+    <div id="tm-filter-bar" class="tmscroll" style="display:flex;gap:9px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px">
       <button onclick="{{ filterAll }}" style="{{ chipAllStyle }}">Semua</button>
       <sc-for list="{{ filterChips }}" as="c" hint-placeholder-count="6">
         <button onclick="{{ c.select }}" style="{{ c.style }}">{{ c.label }}</button>
